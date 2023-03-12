@@ -58,7 +58,7 @@ public class TestServlet extends HttpServlet {
                         "operator", "Operador", "admin@gmail.com", "123", "123"
                 );
                 UsuarioDAO udao = new UsuarioDAO();
-                udao.insert(ui2);
+                udao.insert(ui2); 
                // udao.insert(u);
                 //-- 
                 Usuario uu = new Usuario(
