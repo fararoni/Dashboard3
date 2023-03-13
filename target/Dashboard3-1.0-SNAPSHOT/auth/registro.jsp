@@ -12,16 +12,8 @@
                     <a href="../../index2.html" class="h1"><b>Tese</b>ADMIN</a>
                 </div>
                 <div class="card-body">
-                    <p class="login-box-msg">Registrar nuevo usuario</p>
+                    <p class="login-box-msg">Crear cuenta de usuario</p>
                     <form action="<%=request.getContextPath()%>/Auth/insertar" method="post">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control"  name="nombre" placeholder="Nombre completo">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="input-group mb-3">
                             <input type="email" class="form-control" name="email" placeholder="Email">
                             <div class="input-group-append">
@@ -51,19 +43,19 @@
                                 <div class="icheck-primary">
                                     <input type="checkbox" id="agreeTerms" name="terms" value="agree">
                                     <label for="agreeTerms">
-                                        Estoy de acuerdo con los <a href="#">términos</a>
+                                        Acepto los <a href="#">términos</a>
                                     </label>
                                 </div>
                             </div>
 
                             <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
+                                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
                             </div>
 
                         </div>
                     </form>
 
-                    <a href="login.jsp" class="text-center">Ya tengo una cuenta</a>
+                    <a href="<%=request.getContextPath()%>/Auth/login" class="text-center">Ya tengo una cuenta</a>
                 </div>
 
             </div>

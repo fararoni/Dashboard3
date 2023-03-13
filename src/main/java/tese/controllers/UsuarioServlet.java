@@ -34,6 +34,9 @@ public class UsuarioServlet extends HttpServlet {
             if ( "/Auth/".equals(accion) || "/Auth/login".equals(accion) ){
                     showFormLogin(request, response);
             } else 
+            if ( "/Auth/login".equals(accion) ){
+                    loginUsuario(request, response);
+            } else 
             if ( "/Auth/registrar".equals(accion) ){
                     showFormRegistro(request, response);
             } else 
@@ -60,6 +63,21 @@ public class UsuarioServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
     
+    private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
+    throws SQLException, IOException {
+        try {
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            Usuario newUsuario = user.select(email);
+            System.out.println("Se encontro el Usuario");
+            response.sendRedirect("index.jsp");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error: insertUsuario: " + ex.getMessage());
+            Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //-------
     private void showFormRegistro(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         System.out.println("showFormRegistro:");
@@ -71,11 +89,10 @@ public class UsuarioServlet extends HttpServlet {
         
         
         try {
-            String nombre = request.getParameter("nombre");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             String password2 = request.getParameter("password2");
-            Usuario newUsuario = new Usuario(email, nombre, email, password, password2);
+            Usuario newUsuario = new Usuario(email, password, password2);
             user.insert(newUsuario);
             System.out.println("Se inserto el Usuario");
             response.sendRedirect("login");

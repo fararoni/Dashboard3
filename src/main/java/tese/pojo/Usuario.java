@@ -1,16 +1,12 @@
 package tese.pojo;
 public class Usuario {
     Integer id;
-    String usuario;
-    String nombre;
     String email;
     String password;
     String password2;
     public Usuario(){
     }
-    public Usuario(String usuario, String nombre, String email, String password, String password2) {
-        this.usuario = usuario;
-        this.nombre = nombre;
+    public Usuario(String email, String password, String password2) {
         this.email = email;
         this.password = password;
         this.password2 = password2;
@@ -25,22 +21,6 @@ public class Usuario {
     }
     
     
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-    
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -67,7 +47,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", email=" + email + ", password=" + password + ", password2=" + password2 + '}';
+        return "Usuario{" + "id=" + id + ", email=" + email + ", password=" + password + ", password2=" + password2 + '}';
     }
     
     

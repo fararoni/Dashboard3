@@ -10,17 +10,15 @@ import tese.pojo.Usuario;
 public class UsuarioDAO  {
     static String sqlCrearTabla = "CREATE TABLE USUARIOS "
             + "(ID PRIMARY KEY,"
-            + "nombre  text,"
             + " email text,"
             + " password text"
             + ")";
     
-    String sqlInsert = "INSERT INTO  usuarios (usuario, nombre, email, password)" + 
-            "   VALUES ( ?, ?, ?, ? )";
-    String sqlUpdate  = "update usuarios set nombre = ?,email= ? where id = ? ";
-    String sqlDelete = "delete from usuarios where id = ?;";
-    String sqlSelectById = "select id,usuario, nombre, email, password from usuarios where id =?";
-    String sqlSelectByUsuario = "select id,usuario, nombre, email, password from usuarios where usuario =?";
+    String sqlInsert = "INSERT INTO  usuarios (email, password) VALUES ( ?, ? )";
+    String sqlUpdate  = "UPDATE usuarios set email= ?, password = ? where id = ? ";
+    String sqlDelete = "DELETE from usuarios where id = ?;";
+    String sqlSelectById = "SELECT id, email, password from usuarios where id =?";
+    String sqlSelectByEmail = "SELECT id, email, password from usuarios where email =?";
     String sqlSelectAll ="select * from usuarios";
     
     public boolean crearTabla (){
@@ -31,10 +29,8 @@ public class UsuarioDAO  {
     public int  insert ( Usuario u ) throws SQLException, ClassNotFoundException{
         int cuantos;
         PreparedStatement ps=DatabaseDAO.openConnection().prepareStatement( sqlInsert );
-            ps.setString(1,u.getUsuario());  
-            ps.setString(2,u.getNombre());  
-            ps.setString(3,u.getEmail());  
-            ps.setString(4,u.getPassword());  
+            ps.setString(1,u.getEmail());  
+            ps.setString(2,u.getPassword());  
         cuantos = ps.executeUpdate();
         DatabaseDAO.closeConnection();
         return cuantos;
@@ -43,8 +39,8 @@ public class UsuarioDAO  {
      public int update (Usuario u ) throws SQLException, ClassNotFoundException {
         int cuantos;
         PreparedStatement ps = DatabaseDAO.openConnection().prepareStatement(sqlUpdate);        
-            ps.setString(1,u.getNombre());  
-            ps.setString(2,u.getEmail());  
+            ps.setString(1,u.getEmail());  
+            ps.setString(2,u.getPassword());  
             ps.setInt(3,u.getId());  
             cuantos = ps.executeUpdate();
             DatabaseDAO.closeConnection();
@@ -69,26 +65,24 @@ public class UsuarioDAO  {
             while (rs.next()) {
                 user = new Usuario();
                 user.setId(rs.getInt("id"));
-                user.setUsuario(rs.getString("usuario"));
-                user.setNombre(rs.getString("nombre"));
                 user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
             }
             DatabaseDAO.closeConnection();
         return user;
     }
     
-    public Usuario select(String usuario) throws SQLException, ClassNotFoundException {
+    public Usuario select(String email) throws SQLException, ClassNotFoundException {
         Usuario user = null;
-        PreparedStatement preparedStatement = DatabaseDAO.openConnection().prepareStatement(sqlSelectByUsuario);
-            preparedStatement.setString(1, usuario);
+        PreparedStatement preparedStatement = DatabaseDAO.openConnection().prepareStatement(sqlSelectByEmail);
+            preparedStatement.setString(1, email);
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 user = new Usuario();
                 user.setId(rs.getInt("id"));
-                user.setUsuario(rs.getString("usuario"));
-                user.setNombre(rs.getString("nombre"));
                 user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
             }
             DatabaseDAO.closeConnection();
         return user;
@@ -102,9 +96,8 @@ public class UsuarioDAO  {
         while (rs.next()) {
             Usuario user = new Usuario();
                 user.setId(rs.getInt("id"));
-                user.setUsuario(rs.getString("usuario"));
-                user.setNombre(rs.getString("nombre"));
                 user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
               users.add(user);
         
         }
