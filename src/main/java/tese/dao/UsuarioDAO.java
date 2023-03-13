@@ -15,21 +15,17 @@ public class UsuarioDAO  {
             + " password text"
             + ")";
     
-    
-    
     String sqlInsert = "INSERT INTO  usuarios (usuario, nombre, email, password)" + 
             "   VALUES ( ?, ?, ?, ? )";
-    
     String sqlUpdate  = "update usuarios set nombre = ?,email= ? where id = ? ";
-    
     String sqlDelete = "delete from usuarios where id = ?;";
-    
     String sqlSelectById = "select id,usuario, nombre, email, password from usuarios where id =?";
-
+    String sqlSelectByUsuario = "select id,usuario, nombre, email, password from usuarios where usuario =?";
     String sqlSelectAll ="select * from usuarios";
     
     public boolean crearTabla (){
         return DatabaseDAO.crearTabla(sqlCrearTabla);
+        
     }
     
     public int  insert ( Usuario u ) throws SQLException, ClassNotFoundException{
@@ -40,6 +36,7 @@ public class UsuarioDAO  {
             ps.setString(3,u.getEmail());  
             ps.setString(4,u.getPassword());  
         cuantos = ps.executeUpdate();
+        DatabaseDAO.closeConnection();
         return cuantos;
     }
     
@@ -50,6 +47,7 @@ public class UsuarioDAO  {
             ps.setString(2,u.getEmail());  
             ps.setInt(3,u.getId());  
             cuantos = ps.executeUpdate();
+            DatabaseDAO.closeConnection();
         return cuantos;
     }
      
@@ -58,6 +56,7 @@ public class UsuarioDAO  {
         PreparedStatement ps  = DatabaseDAO.openConnection().prepareStatement(sqlDelete);
             ps.setInt(1, id);
             cuantos = ps.executeUpdate();
+            DatabaseDAO.closeConnection();
         return cuantos;
     }
     //---
@@ -74,6 +73,24 @@ public class UsuarioDAO  {
                 user.setNombre(rs.getString("nombre"));
                 user.setEmail(rs.getString("email"));
             }
+            DatabaseDAO.closeConnection();
+        return user;
+    }
+    
+    public Usuario select(String usuario) throws SQLException, ClassNotFoundException {
+        Usuario user = null;
+        PreparedStatement preparedStatement = DatabaseDAO.openConnection().prepareStatement(sqlSelectByUsuario);
+            preparedStatement.setString(1, usuario);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                user = new Usuario();
+                user.setId(rs.getInt("id"));
+                user.setUsuario(rs.getString("usuario"));
+                user.setNombre(rs.getString("nombre"));
+                user.setEmail(rs.getString("email"));
+            }
+            DatabaseDAO.closeConnection();
         return user;
     }
     
@@ -91,6 +108,7 @@ public class UsuarioDAO  {
               users.add(user);
         
         }
+        DatabaseDAO.closeConnection();
         return users;
     }
 }

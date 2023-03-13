@@ -34,10 +34,10 @@ public class TestServlet extends HttpServlet {
             if ( DatabaseDAO.openConnection() != null ) {
                 out.println("<h1>Conectado a la base de datos.</h1>");
                 Usuario ui1 = new Usuario(
-                        "admin", "Administrador", "admin@gmail.com", "123", "123"
+                        "admin2", "Administrador", "admin@gmail.com", "123", "123"
                 );
                 Usuario ui2 = new Usuario(
-                        "operator", "Operador", "admin@gmail.com", "123", "123"
+                        "operator", "Operador", "admin2@gmail.com", "123", "123"
                 );
                 UsuarioDAO udao = new UsuarioDAO();
                 udao.insert(ui2); 
@@ -50,6 +50,11 @@ public class TestServlet extends HttpServlet {
                 udao.update(uu);
                 Usuario us =  udao.select(1);
                 out.println("<h1>" + us + ".</h1>");
+
+
+                Usuario usUser =  udao.select("operator");
+                out.println("<h1>" + usUser + ".</h1>");
+
                 
                 List listUser = udao.selectAll();
                 out.println("<hr />");

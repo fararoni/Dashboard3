@@ -52,7 +52,7 @@
                         <a href="recuperar.jsp">Recuperar contraseña</a>
                     </p>
                     <p class="mb-0">
-                        <a href="registro.jsp" class="text-center">Registrar nuevo usuario</a>
+                        <a href="<%=request.getContextPath()%>/Auth/registrar" class="text-center">Registrar nuevo usuario</a>
                     </p>
                 </div>
 
