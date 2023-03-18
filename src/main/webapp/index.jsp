@@ -1,8 +1,8 @@
+<%@include file="/auth/sesion.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%! String titulo = "Proyecto Dashboard TESE";
-        %>
+    <%! String titulo = "Proyecto Dashboard TESE"; %>
     <%@include file="/layout/head.jsp" %>
 </head>
 <body class="hold-transition sidebar-mini">

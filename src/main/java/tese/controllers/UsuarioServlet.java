@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import tese.dao.UsuarioDAO;
 import tese.pojo.Usuario;
 
@@ -18,22 +19,29 @@ import tese.pojo.Usuario;
 public class UsuarioServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UsuarioDAO user;
+    private final int _GET_ = 0;
+    private final int _POST_= 0;
     
     public void init(){
         user = new UsuarioDAO();
     }
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, String metodo, String accion)
             throws ServletException, IOException {
 //        response.setContentType("text/html;charset=UTF-8");
-        String accion = request.getServletPath();
-        System.out.println("accion:" + accion);
-        
+
+        System.out.println("processRequest:metodo " + metodo + " + accion:" + accion);
         try {
-            System.out.println("accion:" + accion);
-            if ( "/Auth/".equals(accion) || "/Auth/login".equals(accion) ){
+            if ( "/Auth/".equals(accion) ) {
+                showFormLogin(request, response);
+            }
+            if ( "GET".equals (metodo ) && "/Auth/login".equals(accion) ){
                     showFormLogin(request, response);
-            } else 
+            }    
+            if ( "POST".equals (metodo ) &&"/Auth/login".equals(accion) ){
+                    loginUsuario(request, response);
+            }    
+             
             if ( "/Auth/login".equals(accion) ){
                     loginUsuario(request, response);
             } else 
@@ -55,22 +63,45 @@ public class UsuarioServlet extends HttpServlet {
         }
 
     }
-    //--
+    //-- Mostrar formulario
     private void showFormLogin(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         System.out.println("showFormRegistro:");
         RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/login.jsp");
         dispatcher.forward(request, response);
     }
-    
+    //-- Validiar login
     private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
-    throws SQLException, IOException {
+    throws SQLException, IOException, ServletException {
+        System.out.println("UsuarioServlet: POST. loginUsuario ---" );
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             Usuario newUsuario = user.select(email);
-            System.out.println("Se encontro el Usuario");
-            response.sendRedirect("index.jsp");
+            
+            if ( newUsuario == null ) {
+                	RequestDispatcher rd = getServletContext().getRequestDispatcher("/auth/login.jsp");
+			PrintWriter out= response.getWriter();
+			out.println("<font color=red>EL nombre de usuario o contraseña es incorrecto.</font>");
+			rd.include(request, response);
+            } else {
+                System.out.println("Se encontro el Usuario: " + newUsuario);
+             //    request.getRequestDispatcher( "/index.jsp").include( request, response);
+              //  RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+              //  rd.forward(request, response);
+              
+              HttpSession session = request.getSession();
+			session.setAttribute("USUARIO", email);
+			session.setMaxInactiveInterval(30*60);
+                        String destino = request.getContextPath() + "/index.jsp";
+                        System.out.println(">> : " + destino );
+              // response.sendRedirect("/index.jsp");
+              response.sendRedirect(destino);
+             
+           //   RequestDispatcher rd = getServletContext().getRequestDispatcher(destino);
+           //   rd.forward(request, response);
+              
+            }
         } catch (ClassNotFoundException ex) {
             System.out.println("Error: insertUsuario: " + ex.getMessage());
             Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,20 +152,26 @@ public class UsuarioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String accion = request.getServletPath();
+        System.out.println("UsuarioSevlet.doGet:" + accion);
+        
+        processRequest(request, response, "GET", accion);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String accion = request.getServletPath();
+        System.out.println("UsuarioSevlet.doPost" + accion);
+        
+        processRequest(request, response, "POST", accion);
     }
 
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Short description: getServletInfo";
     }// </editor-fold>
 
 }

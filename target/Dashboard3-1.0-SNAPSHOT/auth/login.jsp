@@ -14,7 +14,8 @@
                 </div>
                 <div class="card-body">
                     <p class="login-box-msg">Ingresar para iniciar sesión</p>
-                    <form action="<%=request.getContextPath()%>/Auth/login"  method="post">
+                  <form action="<%=request.getContextPath()%>/Auth/login"  method="post"> 
+                 <%--       <form action="<%=request.getContextPath()%>/Auth/LoginServlet"  method="post"> --%>
                         <div class="input-group mb-3">
                             <input type="email"  name="email" class="form-control" placeholder="Email">
                             <div class="input-group-append">
@@ -49,7 +50,7 @@
                     </form>
 
                     <p class="mb-1">
-                        <a href="recuperar.jsp">Recuperar contraseña</a>
+                        <a href="<%=request.getContextPath()%>/auth/recuperar.jsp">Recuperar contraseña</a>
                     </p>
                     <p class="mb-0">
                         <a href="<%=request.getContextPath()%>/Auth/registrar" class="text-center">Registrar nuevo usuario</a>

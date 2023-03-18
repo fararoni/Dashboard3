@@ -32,7 +32,7 @@ public class UsuarioDAO  {
             ps.setString(1,u.getEmail());  
             ps.setString(2,u.getPassword());  
         cuantos = ps.executeUpdate();
-        DatabaseDAO.closeConnection();
+        // DatabaseDAO.closeConnection();
         return cuantos;
     }
     
@@ -43,7 +43,7 @@ public class UsuarioDAO  {
             ps.setString(2,u.getPassword());  
             ps.setInt(3,u.getId());  
             cuantos = ps.executeUpdate();
-            DatabaseDAO.closeConnection();
+           // DatabaseDAO.closeConnection();
         return cuantos;
     }
      
@@ -52,7 +52,7 @@ public class UsuarioDAO  {
         PreparedStatement ps  = DatabaseDAO.openConnection().prepareStatement(sqlDelete);
             ps.setInt(1, id);
             cuantos = ps.executeUpdate();
-            DatabaseDAO.closeConnection();
+            //DatabaseDAO.closeConnection();
         return cuantos;
     }
     //---
@@ -68,7 +68,7 @@ public class UsuarioDAO  {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
             }
-            DatabaseDAO.closeConnection();
+            //DatabaseDAO.closeConnection();
         return user;
     }
     
@@ -84,7 +84,7 @@ public class UsuarioDAO  {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
             }
-            DatabaseDAO.closeConnection();
+            // DatabaseDAO.closeConnection();
         return user;
     }
     
@@ -101,7 +101,7 @@ public class UsuarioDAO  {
               users.add(user);
         
         }
-        DatabaseDAO.closeConnection();
+        // DatabaseDAO.closeConnection();
         return users;
     }
 }
