@@ -15,10 +15,13 @@ import javax.servlet.http.HttpSession;
 import tese.dao.UsuarioDAO;
 import tese.pojo.Usuario;
 
-@WebServlet(name = "UsuarioServlet", urlPatterns = {"/Auth/","/Auth/login","/Auth/registrar","/Auth/insertar", "/Auth/recuperar","/Auth/actualizar" })
+@WebServlet(name = "UsuarioServlet", urlPatterns = 
+{"/Auth/","/Auth/login",
+"/Auth/registrar","/Auth/insertar", 
+"/Auth/recuperar","/Auth/actualizar" })
 public class UsuarioServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private UsuarioDAO user;
+    private UsuarioDAO userDato;
     private final int _GET_ = 0;
     private final int _POST_= 0;
     
@@ -26,7 +29,8 @@ public class UsuarioServlet extends HttpServlet {
         user = new UsuarioDAO();
     }
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response, String metodo, String accion)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, 
+String metodo, String accion)
             throws ServletException, IOException {
 //        response.setContentType("text/html;charset=UTF-8");
 
@@ -115,6 +119,8 @@ public class UsuarioServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/registro.jsp");
         dispatcher.forward(request, response);
     }
+
+
     private void insertUsuario(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
         
@@ -125,7 +131,7 @@ public class UsuarioServlet extends HttpServlet {
             String password2 = request.getParameter("password2");
             Usuario newUsuario = new Usuario(email, password, password2);
             user.insert(newUsuario);
-            System.out.println("Se inserto el Usuario");
+            System.out.println("Se inserto el Usuario:" + email );
             response.sendRedirect("login");
         } catch (ClassNotFoundException ex) {
             System.out.println("Error: insertUsuario: " + ex.getMessage());
