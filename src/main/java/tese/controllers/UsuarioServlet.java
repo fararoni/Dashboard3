@@ -26,7 +26,7 @@ public class UsuarioServlet extends HttpServlet {
     private final int _POST_= 0;
     
     public void init(){
-        user = new UsuarioDAO();
+        userDato = new UsuarioDAO();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, 
@@ -81,7 +81,7 @@ String metodo, String accion)
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            Usuario newUsuario = user.select(email);
+            Usuario newUsuario = userDato.select(email);
             
             if ( newUsuario == null ) {
                 	RequestDispatcher rd = getServletContext().getRequestDispatcher("/auth/login.jsp");
@@ -130,7 +130,7 @@ String metodo, String accion)
             String password = request.getParameter("password");
             String password2 = request.getParameter("password2");
             Usuario newUsuario = new Usuario(email, password, password2);
-            user.insert(newUsuario);
+            userDato.insert(newUsuario);
             System.out.println("Se inserto el Usuario:" + email );
             response.sendRedirect("login");
         } catch (ClassNotFoundException ex) {
