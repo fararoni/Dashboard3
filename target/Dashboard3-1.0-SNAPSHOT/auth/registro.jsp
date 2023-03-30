@@ -1,24 +1,49 @@
+<%@include file="/tools/common.jsp" %>
+<%! String titulo = "Iniciar sesión"; %>
+<%
+    String mensaje = getAtributo(request, "mensaje");
+//    request.removeAttribute("mensaje");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%! String titulo = "Iniciar sesión";
-        %>
         <%@include file="/layout/head.jsp" %>
     </head>
     <body class="hold-transition register-page">
         <div class="register-box">
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
-                    <a href="../../index2.html" class="h1"><b>Tese</b>ADMIN</a>
+                    <a href="<%=request.getContextPath()%>" class="h1"><b>Tese</b>ADMIN</a>
                 </div>
                 <div class="card-body">
                     <p class="login-box-msg">Crear cuenta de usuario</p>
-                    <form action="<%=request.getContextPath()%>/Auth/insertar" method="post">
+                    <% 
+                        if ( !"".equals(mensaje) ) {
+                    %>
+                        <div class="callout callout-warning">
+                           
+                            <p><%= mensaje%></p>
+                        </div>
+                    <%
+                        }
+                    %>
+                                           
+                    <form action="<%=request.getContextPath()%>/Auth/registrar" method="post">
                         <div class="input-group mb-3">
                             <input type="email" class="form-control" name="email" placeholder="Email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="12-3456-7890" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" required>
+                       
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-phone"></span>
                                 </div>
                             </div>
                         </div>

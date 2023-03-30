@@ -9,20 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Isai
- */
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/Auth/LogoutServlet"})
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-    	System.out.println("User="+session.getAttribute("user"));
-    	if(session != null){
-    		session.invalidate();
-    	}
-    	response.sendRedirect(request.getContextPath() + "/Auth/LoginServlet");
+        System.out.println(":: Se eliminó la sesión del usuario User=" + session.getAttribute("user"));
+        if (session != null) {
+            session.invalidate();
+        }
+        response.sendRedirect(request.getContextPath() + "/Auth/LoginServlet");
     }
 }

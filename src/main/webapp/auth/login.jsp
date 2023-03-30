@@ -1,21 +1,30 @@
-<!DOCTYPE html>
+<%@include file="/tools/common.jsp" %>
+<%! String titulo = "Iniciar sesión"; %>
+<%
+    String mensaje = getAtributo(request, "mensaje");
+//    request.removeAttribute("mensaje");
+%><!DOCTYPE html>
 <html lang="en">
     <head>
-        <%! String titulo = "Iniciar sesión";
-        %>
         <%@include file="/layout/head.jsp" %>
     </head>
     <body class="hold-transition login-page">
         <div class="login-box">
-
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
-                    <a href="../../index2.html" class="h1"><b>Tese</b>ADMIN</a>
+                    <a href="<%=request.getContextPath()%>" class="h1"><b>Tese</b>ADMIN</a>
                 </div>
                 <div class="card-body">
-                    <p class="login-box-msg">Ingresar para iniciar sesión</p>
-                  <form action="<%=request.getContextPath()%>/Auth/login"  method="post"> 
-                 <%--       <form action="<%=request.getContextPath()%>/Auth/LoginServlet"  method="post"> --%>
+                    <% if ("".equals(mensaje)) {
+                    %>
+                        <p class="login-box-msg">Iniciar sesión </p>
+                    <%} else {%>
+                        <div class="callout callout-warning">
+                            <h5>Ingresar para iniciar sesión</h5>
+                            <p><%= mensaje%></p>
+                        </div>
+                    <% } %>
+                    <form action="<%=request.getContextPath()%>/Auth/LoginServlet"  method="post">
                         <div class="input-group mb-3">
                             <input type="email"  name="email" class="form-control" placeholder="Email">
                             <div class="input-group-append">
